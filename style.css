@@ -4,10 +4,12 @@ body {
     font-family: 'Courier New', Courier, monospace;
     padding: 20px;
   }
+
   .terminal {
-    max-width: 800px;
+    max-width: 1000px;
     margin: auto;
   }
+
   .input-line {
     display: flex;
     align-items: flex-start;
@@ -29,10 +31,14 @@ body {
     font-size: 1em;
     resize: none;
     outline: none;
-    height: 1.5em;
+    line-height: 1.4em;
     overflow: hidden;
     padding: 0;
+    height: auto;
+    min-height: 1.4em;
+    box-sizing: content-box;
   }
+  
   button {
     margin-top: 10px;
     background: black;
@@ -41,12 +47,15 @@ body {
     padding: 10px 20px;
     cursor: pointer;
   }
+
   #summary {
     white-space: pre-wrap;
     border-top: 1px solid #00ff00;
     margin-top: 20px;
     padding-top: 10px;
+    line-break: anywhere;
   }
+
   .progress-bar {
     margin-top: 20px;
     font-family: inherit;
@@ -54,9 +63,8 @@ body {
 
   #output {
     color: #00ff00;
-    font-family: monospace;
-    white-space: pre;   /* ← THIS preserves spacing and line breaks */
     line-height: 1.4em;
+    line-break: anywhere;
   }
   
   

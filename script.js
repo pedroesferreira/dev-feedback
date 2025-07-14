@@ -6,13 +6,41 @@ const output = document.getElementById('output');
 const response = document.getElementById('response');
 const summary = document.getElementById('summary');
 
-function typeWriter(text, callback) {
+response.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault(); // prevent line break
+        const text = response.value.trim();
+        if (text === '') return;
+    
+        answers.push({ question: questions[current], answer: text });
+        output.innerHTML += `<p>>&nbsp;${text}</p>`; // echo typed response
+
+        // Scroll to bottom smoothly
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        response.value = ''; // clear input
+    
+        current++;
+        if (current < questions.length) {
+            askQuestion();
+        } else {
+            finish();
+        }
+    }
+});
+
+response.addEventListener('input', () => {
+    response.style.height = 'auto'; // reset
+    response.style.height = response.scrollHeight + 'px'; // set to scroll height
+});
+
+function typeWriter(text, callback, speed = 25) {
     let i = 0;
     function type() {
         if (i < text.length) {
-            output.innerHTML += text.charAt(i);
+            const char = text.charAt(i) === ' ' ? '&nbsp;' : text.charAt(i);
+            output.innerHTML += char;
             i++;
-            setTimeout(type, 25);
+            setTimeout(type, speed);
         } else {
             output.innerHTML += "<br/>";
             callback?.();
@@ -33,8 +61,8 @@ function updateProgressBar() {
 }
 
 function askQuestion() {
+    updateProgressBar();
     typeWriter(`> ${questions[current]}`, () => {
-        updateProgressBar();
         response.value = '';
         response.focus();
     });
@@ -49,26 +77,8 @@ function startAscii(index = 0) {
   
     typeWriter(`> ${asciiart[index]}`, () => {
         startAscii(index + 1);
-    });
+    }, 0.1);
 }
-
-response.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault(); // prevent line break
-      const text = response.value.trim();
-      if (text === '') return;
-  
-      answers.push({ question: questions[current], answer: text });
-      output.innerHTML += `<p>> ${text}</p>`; // echo typed response
-  
-      current++;
-      if (current < questions.length) {
-        askQuestion();
-      } else {
-        finish();
-      }
-    }
-});
 
 function finish() {
     updateProgressBar();
@@ -89,7 +99,23 @@ function finish() {
         navigator.clipboard.writeText(resultText);
         alert("Feedback copied!");
     };
+
+    const downloadBtn = document.createElement('button');
+    downloadBtn.textContent = "Download Feedback";
+    downloadBtn.onclick = () => {
+        const blob = new Blob([resultText], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'developer_feedback.txt';
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+
     summary.appendChild(copyBtn);
+    summary.append("  ");
+    summary.appendChild(downloadBtn);
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 
 // Initialize
