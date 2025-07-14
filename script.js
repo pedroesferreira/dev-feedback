@@ -40,8 +40,16 @@ function askQuestion() {
     });
 }
 
-function startAscii() {
-    typeWriter(`> ${asciiart[ascii_counter]}`, () => {});
+function startAscii(index = 0) {
+    if (index >= asciiart.length) {
+        // Done with ASCII, move on to first question
+        askQuestion();
+        return;
+    }
+  
+    typeWriter(`> ${asciiart[index]}`, () => {
+        startAscii(index + 1);
+    });
 }
 
 response.addEventListener('keydown', (e) => {
@@ -86,4 +94,3 @@ function finish() {
 
 // Initialize
 startAscii();
-askQuestion();
