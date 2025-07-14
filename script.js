@@ -9,14 +9,14 @@ const summary = document.getElementById('summary');
 function typeWriter(text, callback) {
     let i = 0;
     function type() {
-    if (i < text.length) {
-        output.innerHTML += text.charAt(i);
-        i++;
-        setTimeout(type, 25);
-    } else {
-        output.innerHTML += "<br/>";
-        callback?.();
-    }
+        if (i < text.length) {
+            output.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, 25);
+        } else {
+            output.innerHTML += "<br/>";
+            callback?.();
+        }
     }
     type();
 }
