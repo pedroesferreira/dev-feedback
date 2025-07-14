@@ -51,4 +51,12 @@ body {
     margin-top: 20px;
     font-family: inherit;
   }
+
+  #output {
+    color: #00ff00;
+    font-family: monospace;
+    white-space: pre;   /* ← THIS preserves spacing and line breaks */
+    line-height: 1.4em;
+  }
+  
   
