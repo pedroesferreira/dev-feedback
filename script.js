@@ -1,4 +1,5 @@
 let current = 0;
+let ascii_counter = 0;
 const answers = [];
 
 const output = document.getElementById('output');
@@ -40,7 +41,7 @@ function askQuestion() {
 }
 
 function startAscii() {
-    typeWriter(`> ${asciiart[current]}`, () => {});
+    typeWriter(`> ${asciiart[ascii_counter]}`, () => {});
 }
 
 response.addEventListener('keydown', (e) => {
