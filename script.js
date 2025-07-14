@@ -6,37 +6,41 @@ const response = document.getElementById('response');
 const summary = document.getElementById('summary');
 
 function typeWriter(text, callback) {
-  let i = 0;
-  function type() {
+    let i = 0;
+    function type() {
     if (i < text.length) {
-      output.innerHTML += text.charAt(i);
-      i++;
-      setTimeout(type, 25);
+        output.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(type, 25);
     } else {
-      output.innerHTML += "<br/>";
-      callback?.();
+        output.innerHTML += "<br/>";
+        callback?.();
     }
-  }
-  type();
+    }
+    type();
 }
 
 function updateProgressBar() {
-  const total = questions.length;
-  const completed = current;
-  const percent = Math.round((completed / total) * 100);
-  const barLength = 20;
-  const filled = Math.round((percent / 100) * barLength);
-  const empty = barLength - filled;
-  const bar = "[" + "#".repeat(filled) + "-".repeat(empty) + `] ${percent}%`;
-  output.innerHTML += `<p>> Progress: ${bar}</p>`;
+    const total = questions.length;
+    const completed = current;
+    const percent = Math.round((completed / total) * 100);
+    const barLength = 20;
+    const filled = Math.round((percent / 100) * barLength);
+    const empty = barLength - filled;
+    const bar = "[" + "#".repeat(filled) + "-".repeat(empty) + `] ${percent}%`;
+    output.innerHTML += `<p>> Progress: ${bar}</p>`;
 }
 
 function askQuestion() {
-  typeWriter(`> ${questions[current]}`, () => {
-    updateProgressBar();
-    response.value = '';
-    response.focus();
-  });
+    typeWriter(`> ${questions[current]}`, () => {
+        updateProgressBar();
+        response.value = '';
+        response.focus();
+    });
+}
+
+function startAscii() {
+    typeWriter(`> ${asciiart[current]}`, () => {});
 }
 
 response.addEventListener('keydown', (e) => {
@@ -58,25 +62,27 @@ response.addEventListener('keydown', (e) => {
 });
 
 function finish() {
-  output.innerHTML += `<p>> ALL QUESTIONS COMPLETE.</p>`;
-  response.style.display = 'none';
+    updateProgressBar();
+    output.innerHTML += `<p>> ALL QUESTIONS COMPLETE.</p>`;
+    response.style.display = 'none';
 
-  let resultText = "=== FEEDBACK SUMMARY ===\n";
-  answers.forEach((qa, i) => {
-    resultText += `Q${i+1}: ${qa.question}\nA: ${qa.answer}\n\n`;
-  });
+    let resultText = "=== FEEDBACK SUMMARY ===\n";
+    answers.forEach((qa, i) => {
+        resultText += `Q${i+1}: ${qa.question}\nA: ${qa.answer}\n\n`;
+    });
 
-  summary.style.display = 'block';
-  summary.textContent = resultText;
+    summary.style.display = 'block';
+    summary.textContent = resultText;
 
-  const copyBtn = document.createElement('button');
-  copyBtn.textContent = "Copy to Clipboard";
-  copyBtn.onclick = () => {
-    navigator.clipboard.writeText(resultText);
-    alert("Feedback copied!");
-  };
-  summary.appendChild(copyBtn);
+    const copyBtn = document.createElement('button');
+    copyBtn.textContent = "Copy to Clipboard";
+    copyBtn.onclick = () => {
+        navigator.clipboard.writeText(resultText);
+        alert("Feedback copied!");
+    };
+    summary.appendChild(copyBtn);
 }
 
 // Initialize
+startAscii();
 askQuestion();
