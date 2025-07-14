@@ -3,7 +3,6 @@ const answers = [];
 
 const output = document.getElementById('output');
 const response = document.getElementById('response');
-const nextBtn = document.getElementById('nextBtn');
 const summary = document.getElementById('summary');
 
 function typeWriter(text, callback) {
@@ -40,23 +39,27 @@ function askQuestion() {
   });
 }
 
-nextBtn.addEventListener('click', () => {
-  const text = response.value.trim();
-  if (text === '') return alert('Please enter a response before continuing.');
-  answers.push({ question: questions[current], answer: text });
-
-  current++;
-  if (current < questions.length) {
-    askQuestion();
-  } else {
-    finish();
-  }
+response.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // prevent line break
+      const text = response.value.trim();
+      if (text === '') return;
+  
+      answers.push({ question: questions[current], answer: text });
+      output.innerHTML += `<p>> ${text}</p>`; // echo typed response
+  
+      current++;
+      if (current < questions.length) {
+        askQuestion();
+      } else {
+        finish();
+      }
+    }
 });
 
 function finish() {
   output.innerHTML += `<p>> ALL QUESTIONS COMPLETE.</p>`;
   response.style.display = 'none';
-  nextBtn.style.display = 'none';
 
   let resultText = "=== FEEDBACK SUMMARY ===\n";
   answers.forEach((qa, i) => {
