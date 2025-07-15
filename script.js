@@ -1,5 +1,7 @@
 let current = 0;
 let ascii_counter = 0;
+let intro_counter = 0;
+let state = 'ascii'; // can be 'ascii', 'intro', or 'questions'
 const answers = [];
 
 const output = document.getElementById('output');
@@ -10,20 +12,30 @@ response.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault(); // prevent line break
         const text = response.value.trim();
-        if (text === '') return;
-    
-        answers.push({ question: questions[current], answer: text });
-        output.innerHTML += `<p>>&nbsp;${text}</p>`; // echo typed response
 
-        // Scroll to bottom smoothly
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        response.value = ''; // clear input
-    
-        current++;
-        if (current < questions.length) {
+        if (state === 'intro') {
+            response.value = '';
+            state = 'questions';
             askQuestion();
-        } else {
-            finish();
+            return;
+        }
+
+        if (state === 'questions') {
+            if (text === '') return;
+        
+            answers.push({ question: questions[current], answer: text });
+            output.innerHTML += `<p>>&nbsp;${text}</p>`; // echo typed response
+
+            // Scroll to bottom smoothly
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            response.value = ''; // clear input
+        
+            current++;
+            if (current < questions.length) {
+                askQuestion();
+            } else {
+                finish();
+            }
         }
     }
 });
@@ -41,6 +53,7 @@ function typeWriter(text, callback, speed = 25) {
             output.innerHTML += char;
             i++;
             setTimeout(type, speed);
+            //type();
         } else {
             output.innerHTML += "<br/>";
             callback?.();
@@ -68,15 +81,25 @@ function askQuestion() {
     });
 }
 
-function startAscii(index = 0) {
-    if (index >= asciiart.length) {
-        // Done with ASCII, move on to first question
-        askQuestion();
-        return;
-    }
-  
-    typeWriter(`> ${asciiart[index]}`, () => {
-        startAscii(index + 1);
+function startIntro() {
+    typeWriter(`> ${intro[intro_counter]}`, () => {
+        intro_counter++;
+        if (intro_counter < intro.length) {
+            startIntro();
+            state = 'intro';
+        }
+        response.focus();
+    });
+}
+
+function startAscii() {
+    typeWriter(`> ${asciiart[ascii_counter]}`, () => {
+        ascii_counter++;
+        if (ascii_counter < asciiart.length) {
+            startAscii();
+        } else {
+            startIntro(); // After ASCII art is done, show intro
+        }
     }, 0.1);
 }
 

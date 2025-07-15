@@ -1,6 +1,6 @@
 body {
-    background-color: black;
-    color: #00ff00;
+    background-color: #0C0C0C;
+    color: #CCCCCC;
     font-family: 'Courier New', Courier, monospace;
     padding: 20px;
   }
@@ -17,15 +17,15 @@ body {
   }
   
   .prompt-symbol {
-    color: #00ff00;
+    color: #CCCCCC;
     padding-right: 5px;
     font-family: inherit;
   }
   
   textarea {
     flex: 1;
-    background: black;
-    color: #00ff00;
+    background: #0C0C0C;
+    color: #CCCCCC;
     border: none;
     font-family: inherit;
     font-size: 1em;
@@ -41,16 +41,16 @@ body {
   
   button {
     margin-top: 10px;
-    background: black;
-    color: #00ff00;
-    border: 1px solid #00ff00;
+    background: #0C0C0C;
+    color: #CCCCCC;
+    border: 1px solid #CCCCCC;
     padding: 10px 20px;
     cursor: pointer;
   }
 
   #summary {
     white-space: pre-wrap;
-    border-top: 1px solid #00ff00;
+    border-top: 1px solid #CCCCCC;
     margin-top: 20px;
     padding-top: 10px;
     line-break: anywhere;
@@ -62,7 +62,7 @@ body {
   }
 
   #output {
-    color: #00ff00;
+    color: #CCCCCC;
     line-height: 1.4em;
     line-break: anywhere;
   }
