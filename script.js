@@ -7,6 +7,7 @@ const answers = [];
 const output = document.getElementById('output');
 const response = document.getElementById('response');
 const summary = document.getElementById('summary');
+const themeToggle = document.getElementById('themeToggle');
 
 response.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -26,13 +27,14 @@ response.addEventListener('keydown', (e) => {
             answers.push({ question: questions[current], answer: text });
             output.innerHTML += `<p>>&nbsp;${text}</p>`; // echo typed response
 
-            // Scroll to bottom smoothly
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
             response.value = ''; // clear input
         
             current++;
             if (current < questions.length) {
                 askQuestion();
+                // Scroll to bottom smoothly
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                response.value = ''; // clear input
             } else {
                 finish();
             }
@@ -45,6 +47,11 @@ response.addEventListener('input', () => {
     response.style.height = response.scrollHeight + 'px'; // set to scroll height
 });
 
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light-theme');
+  themeToggle.textContent = document.body.classList.contains('light-theme') ? '🌞' : '🌙';
+});
+
 function typeWriter(text, callback, speed = 25) {
     let i = 0;
     function type() {
@@ -52,8 +59,8 @@ function typeWriter(text, callback, speed = 25) {
             const char = text.charAt(i) === ' ' ? '&nbsp;' : text.charAt(i);
             output.innerHTML += char;
             i++;
-            setTimeout(type, speed);
-            //type();
+            //setTimeout(type, speed);
+            type();
         } else {
             output.innerHTML += "<br/>";
             callback?.();

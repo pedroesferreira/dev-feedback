@@ -1,10 +1,10 @@
-body {
-    background-color: #0C0C0C;
-    color: #CCCCCC;
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
     font-family: 'Courier New', Courier, monospace;
-    padding: 20px;
+    transition: background 0.3s, color 0.3s;
   }
-
+  
   .terminal {
     max-width: 1000px;
     margin: auto;
@@ -17,15 +17,15 @@ body {
   }
   
   .prompt-symbol {
-    color: #CCCCCC;
+    color: var(--fg);
     padding-right: 5px;
     font-family: inherit;
   }
   
   textarea {
     flex: 1;
-    background: #0C0C0C;
-    color: #CCCCCC;
+    background: var(--bg);
+    color: var(--fg);
     border: none;
     font-family: inherit;
     font-size: 1em;
@@ -41,16 +41,25 @@ body {
   
   button {
     margin-top: 10px;
-    background: #0C0C0C;
-    color: #CCCCCC;
-    border: 1px solid #CCCCCC;
+    background: var(--bg);
+    color: var(--fg);
+    border: 1px solid var(--fg);
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+
+  .themebtn {
+    margin-top: 10px;
+    background: var(--bg);
+    color: var(--fg);
+    border: 1px solid var(--bg);
     padding: 10px 20px;
     cursor: pointer;
   }
 
   #summary {
     white-space: pre-wrap;
-    border-top: 1px solid #CCCCCC;
+    border-top: 1px solid var(--fg);
     margin-top: 20px;
     padding-top: 10px;
     line-break: anywhere;
@@ -62,9 +71,18 @@ body {
   }
 
   #output {
-    color: #CCCCCC;
+    color: var(--fg);
     line-height: 1.4em;
     line-break: anywhere;
   }
   
-  
+  /*theme picker*/
+  :root {
+    --bg: #0C0C0C;
+    --fg: #CCCCCC;
+  }
+
+  body.light-theme {
+    --bg: #f4f4f4;
+    --fg: #222;
+  }
