@@ -59,8 +59,8 @@ function typeWriter(text, callback, speed = 25) {
             const char = text.charAt(i) === ' ' ? '&nbsp;' : text.charAt(i);
             output.innerHTML += char;
             i++;
-            //setTimeout(type, speed);
-            type();
+            setTimeout(type, speed);
+            //type();
         } else {
             output.innerHTML += "<br/>";
             callback?.();
