@@ -6,8 +6,7 @@
   }
   
   .terminal {
-    max-width: 1000px;
-    margin: auto;
+    margin: 20px;
   }
 
   .input-line {
@@ -37,6 +36,7 @@
     height: auto;
     min-height: 1.4em;
     box-sizing: content-box;
+    caret-color: transparent;
   }
   
   button {

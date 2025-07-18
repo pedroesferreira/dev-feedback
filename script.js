@@ -2,12 +2,20 @@ let current = 0;
 let ascii_counter = 0;
 let intro_counter = 0;
 let state = 'ascii'; // can be 'ascii', 'intro', or 'questions'
+let is_writing = true;
 const answers = [];
 
 const output = document.getElementById('output');
 const response = document.getElementById('response');
 const summary = document.getElementById('summary');
 const themeToggle = document.getElementById('themeToggle');
+
+document.addEventListener('click', (e) => {
+    const isInsideInput = e.target.closest('#response');
+    if (!isInsideInput) {
+        response.focus();
+    }
+});
 
 response.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -43,6 +51,9 @@ response.addEventListener('keydown', (e) => {
 });
 
 response.addEventListener('input', () => {
+    if(is_writing) {
+        response.value = ''; // clear input
+    }
     response.style.height = 'auto'; // reset
     response.style.height = response.scrollHeight + 'px'; // set to scroll height
 });
@@ -81,10 +92,12 @@ function updateProgressBar() {
 }
 
 function askQuestion() {
+    is_writing = true;
     updateProgressBar();
     typeWriter(`> ${questions[current]}`, () => {
         response.value = '';
         response.focus();
+        is_writing = false;
     });
 }
 
